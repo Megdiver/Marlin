@@ -7,7 +7,11 @@ name: 'Lock threads'
 
 on:
   schedule:
+<<<<<<< HEAD
     - cron: '22 0 * * *'
+=======
+    - cron: '* */12 * * *'
+>>>>>>> upstream/2.0.x
 
 jobs:
   lock:
