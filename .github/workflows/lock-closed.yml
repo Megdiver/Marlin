@@ -8,9 +8,13 @@ name: Lock Closed Issues
 on:
   schedule:
 <<<<<<< HEAD
+<<<<<<< HEAD
     - cron: '22 0 * * *'
 =======
     - cron: '* */12 * * *'
+>>>>>>> upstream/2.0.x
+=======
+    - cron: '0 1/13 * * *'
 >>>>>>> upstream/2.0.x
 
 jobs:
