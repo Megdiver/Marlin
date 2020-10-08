@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#define CONFIG_EXAMPLES_DIR "Creality/Ender-3/BigTreeTech SKR E3 Turbo/Single Extruder"
+#define CONFIG_EXAMPLES_DIR "Creality/Ender-3/CrealityV1"
 
 /**
  * Configuration.h
@@ -72,7 +72,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(thisiskeithb, Ender-3)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(EF, Ender-3)" // Who made the changes.
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -90,10 +90,10 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-//#define SHOW_CUSTOM_BOOTSCREEN
+#define SHOW_CUSTOM_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
-//#define CUSTOM_STATUS_SCREEN_IMAGE
+#define CUSTOM_STATUS_SCREEN_IMAGE
 
 // @section machine
 
@@ -105,13 +105,13 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT -1
+#define SERIAL_PORT -1 // EF 02-10-2020
 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT_2 0
+#define SERIAL_PORT_2 0 // EF 02-10-2020
 
 /**
  * This setting determines the communication speed of the printer.
@@ -129,11 +129,11 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_BTT_SKR_E3_TURBO
+  #define MOTHERBOARD BOARD_BTT_SKR_V1_4_TURBO // EF 02-10-2020
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Ender-3"
+#define CUSTOM_MACHINE_NAME "E3 Marlin Bugfix 2.x" // EF 02-10-2020
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -484,8 +484,8 @@
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 
 #if ENABLED(PIDTEMP)
-  //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  //#define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
+  #define PID_EDIT_MENU           // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
+  #define PID_AUTOTUNE_MENU       // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM)
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
@@ -536,9 +536,11 @@
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
-  #define DEFAULT_bedKp 50.71
-  #define DEFAULT_bedKi 9.88
-  #define DEFAULT_bedKd 173.43
+  // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
+  // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
+  #define DEFAULT_bedKp 10.00
+  #define DEFAULT_bedKi .023
+  #define DEFAULT_bedKd 305.4
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
@@ -561,14 +563,14 @@
  * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
  */
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 170
+#define EXTRUDE_MINTEMP 180 // EF 02-10-2020
 
 /**
  * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 600
+#define EXTRUDE_MAXLENGTH 600 // EF 02-10-2020
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -674,15 +676,15 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#define X_DRIVER_TYPE  TMC2209
-#define Y_DRIVER_TYPE  TMC2209
-#define Z_DRIVER_TYPE  TMC2209
+#define X_DRIVER_TYPE  TMC2209TMC2209 // EF 02-10-2020
+#define Y_DRIVER_TYPE  TMC2209TMC2209 // EF 02-10-2020
+#define Z_DRIVER_TYPE  TMC2209TMC2209 // EF 02-10-2020
 //#define X2_DRIVER_TYPE A4988
 //#define Y2_DRIVER_TYPE A4988
 //#define Z2_DRIVER_TYPE A4988
 //#define Z3_DRIVER_TYPE A4988
 //#define Z4_DRIVER_TYPE A4988
-#define E0_DRIVER_TYPE TMC2209
+#define E0_DRIVER_TYPE TMC2209TMC2209 // EF 02-10-2020
 //#define E1_DRIVER_TYPE A4988
 //#define E2_DRIVER_TYPE A4988
 //#define E3_DRIVER_TYPE A4988
@@ -808,7 +810,7 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.08 // (mm) Distance from real junction edge
+  #define JUNCTION_DEVIATION_MM 0.08  // (mm) Distance from real junction edge
   #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
                                       // for small segments (< 1mm) with large junction angles (> 135°).
 #endif
@@ -821,7 +823,7 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-#define S_CURVE_ACCELERATION
+//#define S_CURVE_ACCELERATION
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -1077,7 +1079,7 @@
 // @section extruder
 
 #define DISABLE_E false             // Disable the extruder when not stepping
-#define DISABLE_INACTIVE_EXTRUDER   // Keep only the active extruder enabled
+//#define DISABLE_INACTIVE_EXTRUDER // Keep only the active extruder enabled
 
 // @section machine
 
@@ -1232,7 +1234,7 @@
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+//#define MESH_BED_LEVELING
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable
@@ -1277,7 +1279,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 5
+  #define GRID_MAX_POINTS_X 3
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -1287,7 +1289,7 @@
 
     // Beyond the probed grid, continue the implied tilt?
     // Default is to maintain the height of the nearest edge.
-    #define EXTRAPOLATE_BEYOND_GRID
+    //#define EXTRAPOLATE_BEYOND_GRID
 
     //
     // Experimental Subdivision of the grid by Catmull-Rom method.
@@ -1337,16 +1339,16 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  #define MESH_EDIT_MENU        // Add a menu to edit mesh points
+  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-#define LEVEL_BED_CORNERS
+//#define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
@@ -1467,12 +1469,12 @@
  *   M501 - Read settings from EEPROM. (i.e., Throw away unsaved changes)
  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
  */
-#define EEPROM_SETTINGS     // Persistent storage with M500 and M501
+#define EEPROM_SETTINGS       // Persistent storage with M500 and M501
 //#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
-  #define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
+  //#define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
 #endif
 
 //
@@ -1499,14 +1501,19 @@
 
 // Preheat Constants
 #define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 185
-#define PREHEAT_1_TEMP_BED     45
-#define PREHEAT_1_FAN_SPEED   255 // Value from 0 to 255
+#define PREHEAT_1_TEMP_HOTEND 200 // EF 02-10-2020
+#define PREHEAT_1_TEMP_BED     60 // EF 02-10-2020
+#define PREHEAT_1_FAN_SPEED   0 // Value from 0 to 255 // EF 02-10-2020
 
 #define PREHEAT_2_LABEL       "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
-#define PREHEAT_2_FAN_SPEED   255 // Value from 0 to 255
+#define PREHEAT_2_TEMP_HOTEND 240 // EF 02-10-2020
+#define PREHEAT_2_TEMP_BED    100 // EF 02-10-2020
+#define PREHEAT_2_FAN_SPEED   0 // Value from 0 to 255 // EF 02-10-2020
+
+#define PREHEAT_3_LABEL       "TPU" // EF 02-10-2020
+#define PREHEAT_3_TEMP_HOTEND 180 // EF 02-10-2020
+#define PREHEAT_3_TEMP_BED    40 // EF 02-10-2020
+#define PREHEAT_3_FAN_SPEED   0 // Value from 0 to 255 // EF 02-10-2020
 
 /**
  * Nozzle Park
@@ -1519,7 +1526,7 @@
  *    P1  Raise the nozzle always to Z-park height.
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
  */
-#define NOZZLE_PARK_FEATURE
+//#define NOZZLE_PARK_FEATURE
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
@@ -1705,7 +1712,7 @@
  *
  * :['JAPANESE', 'WESTERN', 'CYRILLIC']
  */
-#define DISPLAY_CHARSET_HD44780 JAPANESE
+#define DISPLAY_CHARSET_HD44780 WESTERN // EF 02-10-2020
 
 /**
  * Info Screen Style (0:Classic, 1:Průša)
@@ -1800,7 +1807,7 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-#define INDIVIDUAL_AXIS_HOMING_MENU
+//#define INDIVIDUAL_AXIS_HOMING_MENU
 
 //
 // SPEAKER/BUZZER
@@ -1981,7 +1988,7 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // https://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER // EF 02-10-2020
 
 //
 // ReprapWorld Graphical LCD
